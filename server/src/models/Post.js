@@ -42,7 +42,7 @@ const PostSchema = new Schema({
       },
       messageUser: {
         type: Schema.Types.ObjectId,
-        re: 'User'
+        ref: 'User'
       }
     }
   ]

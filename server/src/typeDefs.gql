@@ -1,11 +1,11 @@
 type User {
-    _id: ID
-    userName: String!
-    email: String!
-    password: String!
-    avatar: String
-    joinDate: String
-    favorite: [Post]
+  userId: String
+  userName: String!
+  email: String!
+  password: String
+  avatar: String
+  joinDate: String
+  favorites: [Post]
 }
 
 type Post {
@@ -31,5 +31,6 @@ type Query {
 }
 
 type Mutation {
+    addPost(title: String!, imageUrl: String!, categories: [String]!, description: String!, creatorId: ID!) : Post!
     signupUser(userName: String!, email: String!, password: String!): User!
 }

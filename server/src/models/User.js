@@ -4,18 +4,15 @@ const UserSchema = new Schema({
   userName: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   password: {
     type: String,
-    required: true,
     trim: true
   },
   avatar: {
@@ -23,11 +20,11 @@ const UserSchema = new Schema({
   },
   joinDate: {
     type: Date,
-    dafault: Date.Now
+    default: Date.now
   },
-  favorite: {
+  favorites: {
     type: [Schema.Types.ObjectId],
-    required: false,
+    required: true,
     ref: 'Post'
   }
 })

@@ -48,7 +48,7 @@ const PostSchema = new _mongoose.Schema({
     },
     messageUser: {
       type: _mongoose.Schema.Types.ObjectId,
-      re: 'User'
+      ref: 'User'
     }
   }]
 });

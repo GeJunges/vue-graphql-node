@@ -11,18 +11,15 @@ const UserSchema = new _mongoose.Schema({
   userName: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   password: {
     type: String,
-    required: true,
     trim: true
   },
   avatar: {
@@ -30,11 +27,11 @@ const UserSchema = new _mongoose.Schema({
   },
   joinDate: {
     type: Date,
-    dafault: Date.Now
+    default: Date.now
   },
-  favorite: {
+  favorites: {
     type: [_mongoose.Schema.Types.ObjectId],
-    required: false,
+    required: true,
     ref: 'Post'
   }
 });
