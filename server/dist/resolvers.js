@@ -6,7 +6,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.resolvers = void 0;
 const resolvers = {
   Query: {
-    getUser: () => null
+    getPosts: async (_, args, {
+      Post
+    }) => {
+      const posts = await Post.find({}).sort({
+        createdDate: 'desc'
+      }).populate({
+        path: 'createdBy',
+        model: 'User'
+      });
+      return posts;
+    }
   },
   Mutation: {
     addPost: async (_, {
@@ -23,7 +33,8 @@ const resolvers = {
         imageUrl,
         categories,
         description,
-        creatorId
+        creatorId,
+        createdBy: creatorId
       }).save();
       return newPost;
     },

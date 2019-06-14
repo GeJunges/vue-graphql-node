@@ -1,6 +1,14 @@
 export const resolvers = {
   Query: {
-    getUser: () => null
+    getPosts: async (_, args, { Post }) => {
+      const posts = await Post.find({})
+        .sort({ createdDate: 'desc' })
+        .populate({
+          path: 'createdBy',
+          model: 'User'
+        })
+      return posts
+    }
   },
   Mutation: {
     addPost: async (
@@ -13,7 +21,8 @@ export const resolvers = {
         imageUrl,
         categories,
         description,
-        creatorId
+        creatorId,
+        createdBy: creatorId
       }).save()
       return newPost
     },

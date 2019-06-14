@@ -28,10 +28,7 @@ const typeDefs = _fs.default.readFileSync(filePath, 'utf-8');
 (0, _mongoose.connect)(process.env.MONGO_URI, {
   useCreateIndex: true,
   useNewUrlParser: true
-}).then(() => console.log(`DB Connected`)).catch(err => console.error('error:', err)); // console.log('Users', User)
-// console.log('Posts', Post)
-// console.log('Resolvers', resolvers)
-
+}).then(() => console.log(`DB Connected`)).catch(err => console.error('error:', err));
 var server = new _apolloServer.ApolloServer({
   typeDefs,
   resolvers: _resolvers.resolvers,

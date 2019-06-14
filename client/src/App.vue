@@ -26,7 +26,13 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-text-field flex prepend-icon="search" placeholder="Search posts" color="accent" single-line hide-details>
+      <v-text-field
+        flex
+        prepend-icon="search"
+        placeholder="Search posts"
+        color="accent"
+        single-line
+        hide-details>
       </v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">

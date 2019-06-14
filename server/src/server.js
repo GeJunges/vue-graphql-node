@@ -19,10 +19,6 @@ mongoConnect(process.env.MONGO_URI, {
   .then(() => console.log(`DB Connected`))
   .catch(err => console.error('error:', err))
 
-// console.log('Users', User)
-// console.log('Posts', Post)
-// console.log('Resolvers', resolvers)
-
 var server = new ApolloServer({
   typeDefs,
   resolvers,

@@ -7,7 +7,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-Vue.Use(VueApollo);
+Vue.use(VueApollo);
 
 const defaultClient = new ApolloClient({
   uri: 'http://localhost:5002/graphql',
