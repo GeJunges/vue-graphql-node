@@ -4,6 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.resolvers = void 0;
+
+const bcryptjs = require('bcryptjs');
+
+const jwt = require('jsonwebtoken');
+
+const createToken = (user, secret, expiresIn) => {
+  const {
+    username,
+    email
+  } = user;
+  return jwt.sign({
+    username,
+    email
+  }, secret, {
+    expiresIn
+  });
+};
+
 const resolvers = {
   Query: {
     getPosts: async (_, args, {
@@ -38,6 +56,30 @@ const resolvers = {
       }).save();
       return newPost;
     },
+    signinUser: async (_, {
+      userName,
+      password
+    }, {
+      User
+    }) => {
+      const user = await User.findOne({
+        userName
+      });
+
+      if (!user) {
+        throw new Error('user not fount');
+      }
+
+      const isValidPassword = await bcryptjs.compare(password, user.password);
+
+      if (!isValidPassword) {
+        throw new Error('invalid password');
+      }
+
+      return {
+        token: createToken(user, process.env.SECRET, '1hr')
+      };
+    },
     signupUser: async (_, {
       userName,
       email,
@@ -58,7 +100,9 @@ const resolvers = {
         email,
         password
       }).save();
-      return newUser;
+      return {
+        token: createToken(newUser, process.env.SECRET, '1hr')
+      };
     }
   }
 };

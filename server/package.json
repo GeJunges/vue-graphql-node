@@ -4,7 +4,6 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon src/server.js",
     "build": "rimraf dist && babel src --out-dir dist --ignore '**/*.spec.js'",
     "dev": "nodemon --exec yarn restart",
     "restart": "yarn build && node dist/server.js",
@@ -17,11 +16,14 @@
     "apollo-link-context": "^1.0.14",
     "apollo-link-http": "^1.5.11",
     "apollo-server": "^2.3.3",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.0.0",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.4",
+    "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.1",
+    "md5": "^2.2.1",
     "mongoose": "^5.4.9",
     "node-fetch": "^2.3.0"
   },
