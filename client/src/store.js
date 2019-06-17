@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+// eslint-disable-next-line import/no-cycle
 import router from './router';
 
 // eslint-disable-next-line import/no-cycle
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     posts: [],
     user: null,
     loading: false,
+    error: null,
   },
   mutations: {
     setPosts: (state, payload) => {
@@ -26,6 +28,14 @@ export default new Vuex.Store({
     setLoading: (state, payload) => {
       // eslint-disable-next-line no-param-reassign
       state.loading = payload;
+    },
+    setError: (state, payload) => {
+      // eslint-disable-next-line no-param-reassign
+      state.error = payload;
+    },
+    clearError: (state) => {
+      // eslint-disable-next-line no-param-reassign
+      state.error = null;
     },
     clearUser: (state) => {
       // eslint-disable-next-line no-param-reassign
@@ -61,6 +71,8 @@ export default new Vuex.Store({
     },
     signinUser: ({ commit }, payload) => {
       commit('setLoading', true);
+      commit('clearError');
+      localStorage.setItem('token', '');
       apolloClient.mutate({
         mutation: SINGIN_USER,
         variables: payload,
@@ -69,6 +81,7 @@ export default new Vuex.Store({
         router.go();
         commit('setLoading', false);
       }).catch((err) => {
+        commit('setError', err);
         commit('setLoading', false);
         throw err;
       });
@@ -84,5 +97,6 @@ export default new Vuex.Store({
     posts: state => state.posts,
     user: state => state.user,
     loading: state => state.loading,
+    error: state => state.error,
   },
 });
