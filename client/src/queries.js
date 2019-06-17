@@ -1,5 +1,23 @@
 import { gql } from 'apollo-boost';
 
+export const GET_CURRENT_USER = gql`
+    query {
+        getCurrentUser {
+            _id
+            userName
+            email
+            password
+            avatar
+            joinDate
+            favorites {
+                _id
+                title
+                imageUrl
+            }
+        }
+    }
+`;
+
 // eslint-disable-next-line import/prefer-default-export
 export const GET_POSTS = gql`
     query {

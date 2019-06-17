@@ -1,10 +1,11 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, AuthenticationError } from 'apollo-server'
 import { connect as mongoConnect } from 'mongoose'
 import { config as dotEnvConfig } from 'dotenv'
 import fs from 'fs'
 import User from './models/User'
 import Post from './models/Post'
 import { resolvers } from './resolvers'
+const jwt = require('jsonwebtoken')
 
 const path = require('path')
 const filePath = path.join(__dirname, '../src', './typeDefs.gql')
@@ -19,12 +20,25 @@ mongoConnect(process.env.MONGO_URI, {
   .then(() => console.log(`DB Connected`))
   .catch(err => console.error('error:', err))
 
+const getUser = async token => {
+  if (token) {
+    try {
+      return await jwt.verify(token, process.env.SECRET)
+    } catch (err) {
+      throw new AuthenticationError(
+        'Your session has ended. Please sign in again'
+      )
+    }
+  }
+}
+
 var server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
-    User,
-    Post
+  context: async ({ req }) => {
+    const token = req.headers['authorization']
+    const currentUser = await await getUser(token)
+    return { User, Post, currentUser: currentUser }
   }
 })
 

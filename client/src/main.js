@@ -13,6 +13,32 @@ Vue.use(VueApollo);
 // eslint-disable-next-line import/prefer-default-export
 export const defaultClient = new ApolloClient({
   uri: 'http://localhost:5002/graphql',
+  fetchOptions: {
+    credentials: 'include',
+  },
+  request: (operation) => {
+    if (!localStorage.token) {
+      localStorage.setItem('token', '');
+    }
+    operation.setContext({
+      headers: {
+        authorization: localStorage.getItem('token'),
+      },
+    });
+  },
+  onError: ({ graphQLErrors, networkError }) => {
+    if (networkError) {
+      // eslint-disable-next-line no-console
+      console.log('[networkError]', networkError);
+    }
+    if (graphQLErrors) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const err of graphQLErrors) {
+        // eslint-disable-next-line no-console
+        console.dir(err);
+      }
+    }
+  },
 });
 
 const apolloProvider = new VueApollo({ defaultClient });
@@ -23,5 +49,8 @@ new Vue({
   provide: apolloProvider,
   router,
   store,
+  created() {
+    this.$store.dispatch('getCurrentUser');
+  },
   render: h => h(App),
 }).$mount('#app');

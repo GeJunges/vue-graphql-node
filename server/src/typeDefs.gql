@@ -1,5 +1,5 @@
 type User {
-  _id:ID
+  _id: ID
   userId: String
   userName: String!
   email: String!
@@ -33,6 +33,7 @@ type Token {
 }
 
 type Query {
+    getCurrentUser: User
     getPosts: [Post]
 }
 

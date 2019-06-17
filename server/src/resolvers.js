@@ -2,12 +2,25 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const createToken = (user, secret, expiresIn) => {
-  const { username, email } = user
-  return jwt.sign({ username, email }, secret, { expiresIn })
+  const { userName, email } = user
+  return jwt.sign({ userName, email }, secret, { expiresIn })
 }
 
 export const resolvers = {
   Query: {
+    getCurrentUser: async (_, args, { User, currentUser }) => {
+      // eslint-disable-next-line no-unused-expressions
+      if (!currentUser) {
+        return null
+      }
+      const user = await User.findOne({
+        userName: currentUser.userName
+      }).populate({
+        path: 'favorites',
+        model: 'Post'
+      })
+      return user
+    },
     getPosts: async (_, args, { Post }) => {
       const posts = await Post.find({})
         .sort({ createdDate: 'desc' })

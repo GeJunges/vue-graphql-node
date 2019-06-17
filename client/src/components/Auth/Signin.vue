@@ -12,7 +12,7 @@
             <v-form @submit.prevent="handleSigninUser">
               <v-layout row>
                 <v-flex sx12>
-                  <v-text-field v-model="userName" prepend-icon="face" label="Username" type="text"
+                  <v-text-field v-model="username" prepend-icon="face" label="Username" type="text"
                   required></v-text-field>
                 </v-flex>
               </v-layout>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Signin',
   data() {
@@ -47,10 +49,20 @@ export default {
       password: '',
     };
   },
+  computed: {
+    ...mapGetters(['user']),
+  },
+  watch: {
+    user(value) {
+      if (value) {
+        this.$router.push('/');
+      }
+    },
+  },
   methods: {
     handleSigninUser() {
       this.$store.dispatch('signinUser', {
-        userName: this.userName,
+        userName: this.username,
         password: this.password,
       });
     },

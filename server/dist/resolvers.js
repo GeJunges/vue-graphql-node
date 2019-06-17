@@ -11,11 +11,11 @@ const jwt = require('jsonwebtoken');
 
 const createToken = (user, secret, expiresIn) => {
   const {
-    username,
+    userName,
     email
   } = user;
   return jwt.sign({
-    username,
+    userName,
     email
   }, secret, {
     expiresIn
@@ -24,6 +24,23 @@ const createToken = (user, secret, expiresIn) => {
 
 const resolvers = {
   Query: {
+    getCurrentUser: async (_, args, {
+      User,
+      currentUser
+    }) => {
+      // eslint-disable-next-line no-unused-expressions
+      if (!currentUser) {
+        return null;
+      }
+
+      const user = await User.findOne({
+        userName: currentUser.userName
+      }).populate({
+        path: 'favorites',
+        model: 'Post'
+      });
+      return user;
+    },
     getPosts: async (_, args, {
       Post
     }) => {
