@@ -15,7 +15,7 @@
     "apollo-fetch": "^0.7.0",
     "apollo-link-context": "^1.0.14",
     "apollo-link-http": "^1.5.11",
-    "apollo-server": "^2.3.3",
+    "apollo-server": "^2.25.3",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.0.0",
     "graphql": "^14.1.1",
